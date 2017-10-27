@@ -30,7 +30,7 @@ export class MyApp {
       let configJSON = JSON.parse(config);
       console.log("Config: " + config);
       console.log("valor: " + configJSON.showSlide)
-      if(configJSON.showSlide || config == null){
+      if(config == null|| configJSON.showSlide){
         this.rootPage = IntroPage;
         configProvider.setConfigData(false);
       } else {

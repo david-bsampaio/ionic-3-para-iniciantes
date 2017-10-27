@@ -19,18 +19,18 @@ import { MovieProvider } from '../../providers/movie/movie';
 })
 export class FeedPage {
 
-  public objeto_feed = {
-    titulo:"David Sampaio",
-    data:"23 de outubro de 2017",
-    descricao:"Descrição do card que eu estou preenchendo",
-    qtd_like:12,
-    qtd_comentario: 5,
-    time_comentario:"11h atrás"
-  }
+  // public objeto_feed = {
+  //   titulo:"David Sampaio",
+  //   data:"23 de outubro de 2017",
+  //   descricao:"Descrição do card que eu estou preenchendo",
+  //   qtd_like:12,
+  //   qtd_comentario: 5,
+  //   time_comentario:"11h atrás"
+  // }
 
   public lista_filmes = new Array<any>();
-
   public nomeUsuario:string = "David Sampaio";
+  
   constructor(
       public navCtrl: NavController,
       public navParams: NavParams,
@@ -38,9 +38,9 @@ export class FeedPage {
     ) {
   }
 
-  public somaDoisNumeros():void{
-    //alert("3");
-  }
+  // public somaDoisNumeros():void{
+  //   //alert("3");
+  // }
 
   ionViewDidLoad() {
     this.movieProvider.getPopularMovies().subscribe(
