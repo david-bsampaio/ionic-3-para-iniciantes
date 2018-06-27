@@ -8,13 +8,17 @@ import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { FeedPageModule } from '../pages/feed/feed.module';
+import { FirebasePageModule } from '../pages/firebase/firebase.module';
 import { IntroPageModule } from '../pages/intro/intro.module';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HttpModule } from '@angular/http';
 import { MovieProvider } from '../providers/movie/movie';
-
+import { ContactProvider } from '../providers/contact/contact';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 @NgModule({
   declarations: [
@@ -22,14 +26,25 @@ import { MovieProvider } from '../providers/movie/movie';
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage
+    TabsPage,
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     FeedPageModule,
     IntroPageModule,
-    HttpModule
+    HttpModule,
+    FirebasePageModule,
+    AngularFireModule.initializeApp({
+      apiKey: "AIzaSyDNCB7UknnvSD2xIeg1iF5he4Q5YX0PfYA",
+      authDomain: "samtech-controle-de-vendas.firebaseapp.com",
+      databaseURL: "https://samtech-controle-de-vendas.firebaseio.com",
+      projectId: "samtech-controle-de-vendas",
+      storageBucket: "samtech-controle-de-vendas.appspot.com",
+      messagingSenderId: "997655845700"  
+    }),
+    AngularFireAuthModule,
+    AngularFirestoreModule.enablePersistence()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -37,13 +52,14 @@ import { MovieProvider } from '../providers/movie/movie';
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage
+    TabsPage,
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    MovieProvider
+    MovieProvider,
+    ContactProvider
   ]
 })
 export class AppModule {}
