@@ -19,6 +19,9 @@ import { ContactProvider } from '../providers/contact/contact';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { ManterProdutoPage } from '../pages/manter-produto/manter-produto';
+import { ManterProdutoPageModule } from '../pages/manter-produto/manter-produto.module';
+import { ProdutoService } from './services/produto.service';
 
 @NgModule({
   declarations: [
@@ -27,6 +30,7 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
     ContactPage,
     HomePage,
     TabsPage,
+    ManterProdutoPage
   ],
   imports: [
     BrowserModule,
@@ -44,7 +48,7 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
       messagingSenderId: "997655845700"  
     }),
     AngularFireAuthModule,
-    AngularFirestoreModule.enablePersistence()
+    AngularFirestoreModule.enablePersistence(),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -53,13 +57,14 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
     ContactPage,
     HomePage,
     TabsPage,
+    ManterProdutoPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     MovieProvider,
-    ContactProvider
+    ProdutoService
   ]
 })
 export class AppModule {}

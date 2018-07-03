@@ -1,0 +1,60 @@
+<!--
+  Generated template for the ManterProdutoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{titulo}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+<ion-content padding>
+    <form [formGroup]="form">
+        <ion-row>
+            <ion-col col-3 col-lg-4 col-xl-4>
+              <ion-item>
+                <ion-label floating>ID</ion-label>
+                <ion-input type="number" formControlName="id"></ion-input>
+              </ion-item>
+              <ion-item *ngIf="!form.controls.id.valid && (form.controls.id.dirty || form.controls.id.touched)" color="danger">
+                <div [hidden]="!form.controls.id.errors.required">
+                 Campo obrigatório
+                </div>
+              </ion-item>
+            </ion-col>
+            <ion-col col-9 col-lg-8 col-xl-8>
+                <ion-item>
+                  <ion-label floating>Nome</ion-label>
+                  <ion-input type="text" formControlName="nome"></ion-input>
+                </ion-item>
+                <ion-item *ngIf="!form.controls.nome.valid && (form.controls.nome.dirty || form.controls.nome.touched)" color="danger">
+                    <div [hidden]="!form.controls.nome.errors.required">
+                     Campo obrigatório
+                    </div>
+                  </ion-item>
+              </ion-col>
+          </ion-row>
+          <ion-row>
+              <ion-col col-12 col-lg-12 col-xl-12>
+                  <ion-item>
+                    <ion-label floating>Descrição</ion-label>
+                    <ion-input type="text" formControlName="descricao"></ion-input>
+                  </ion-item>
+                </ion-col>
+            </ion-row>
+    </form>
+
+</ion-content>
+<ion-footer>
+  <button ion-button float-end (click)="salvar()" [disabled]="!form.valid">
+    <ion-icon name="archive" padding-right></ion-icon>
+    Salvar
+  </button>
+  <button ion-button float-start (click)="voltar()">
+    <ion-icon name="arrow-round-back" padding-right></ion-icon>
+    Voltar
+  </button>
+</ion-footer>

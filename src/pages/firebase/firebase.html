@@ -9,25 +9,28 @@
   <ion-content padding>
   
     <ion-list>
-      <ion-item-sliding *ngFor="let item of items | async">
+      <ion-item-sliding *ngFor="let item of produtos | async">
         <ion-item>
           <h1>{{item.id}} - {{ item.nome }}</h1>
           <p>{{ item.descricao }}</p>
         </ion-item>
         <ion-item-options side="left">
- <!--          <button ion-button color="secondary" (click)="editContact(contact)">
+          <button ion-button color="secondary" (click)="editarProduto(item)">
             <ion-icon name="create"></ion-icon>
+            Editar
           </button>
-          <button ion-button color="danger" (click)="removeContact(contact.key)">
+          <button ion-button color="danger" (click)="removerProduto(item)">
             <ion-icon name="trash"></ion-icon>
-          </button> -->
+            Remover
+          </button>
         </ion-item-options>
       </ion-item-sliding>
     </ion-list>
   
     <ion-fab bottom right>
-      <button ion-fab color="primary" (click)="incluirProduto()">
+      <button ion-fab color="primary" (click)="inserir()">
         <ion-icon name="add"></ion-icon>
       </button>
     </ion-fab>
-  </ion-content>
+  </ion-content>ionic serve
+  

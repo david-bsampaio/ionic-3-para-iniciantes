@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import { MovieProvider } from '../../providers/movie/movie';
-import { ContactProvider } from '../../providers/contact/contact';
+import { IonicPage, NavController, NavParams, ToastController, ModalController, AlertController } from 'ionic-angular';
 import { Observable } from 'rxjs';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { ManterProdutoPage } from '../manter-produto/manter-produto';
+import { ProdutoService } from '../../app/services/produto.service';
 
 /**
  * Generated class for the FeedPage page.
@@ -11,12 +11,6 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
-interface Produto {
-  descricao: string;
-  id: number;
-  nome: string;
- }
 
 @IonicPage()
 @Component({
@@ -26,33 +20,59 @@ interface Produto {
 export class FirebasePage {
 
   itemsCollection: AngularFirestoreCollection<Produto>; //Firestore collection
-
   items: Observable<Produto[]>; // read collection
+  produtos: Observable<Produto[]>;  
   
   constructor(
     public navCtrl: NavController, private afs: AngularFirestore,
-    private toast: ToastController
+    public modalCtrl: ModalController,
+    private produtoService: ProdutoService,
+    private alertCtrl: AlertController,
+    private toastCtrl: ToastController
       ) {
-        // this.contacts = this.provider.getAll();
   }
 
   ionViewWillEnter() {
-    this.itemsCollection = this.afs.collection('produto'); //ref()
-    this.items = this.itemsCollection.valueChanges();
+    this.produtos = this.produtoService.getProdutos();
  }
 
-incluirProduto(){
-  this.itemsCollection.add({
-    descricao: "1TB Space with great performance",
-    nome:'1TB',
-    id: 13423
-  })
-  .then( (result) => {
-      console.log("Document addded with id >>> ", result.id);
-  })
-  .catch( (error) => {
-      console.error("Error adding document: ", error);
-  });
+ inserir() {
+  const modal = this.modalCtrl.create(ManterProdutoPage, {tipo: "inserir"});
+  modal.present();
 }
 
+  editarProduto(produto:any) {
+    const modal = this.modalCtrl.create(ManterProdutoPage, {produto});
+    modal.present();
+  }
+
+  removerProduto(produto:any){
+    const confirm = this.alertCtrl.create({
+      title: `Exclusão!`,
+      message: `Deseja remover o produto ${produto.nome}?`,
+      buttons: [
+        {
+          text: 'Não',
+          handler: () => {
+            console.log('Clicou em Não');
+          }
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            console.log('Clicou em Sim');
+            this.produtoService.deleteProduto(produto)
+            .then(() => {
+              this.toastCtrl.create({ message: `Produto ${produto.nome} removido.`, duration: 3000 }).present();
+            })
+            .catch((e) => {
+              this.toastCtrl.create({ message: 'Erro ao remover o produto.', duration: 3000 }).present();
+              console.error(e);
+            })
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
 }

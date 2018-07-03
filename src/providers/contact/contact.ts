@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFirestoreCollection, AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
+import { ModalController } from 'ionic-angular/umd';
+import { ManterProdutoPage } from '../../pages/manter-produto/manter-produto';
 
 interface Produto {
   descricao: string;

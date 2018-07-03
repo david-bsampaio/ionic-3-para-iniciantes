@@ -28,8 +28,8 @@ export class MyApp {
 
       let config = configProvider.getConfigData();
       let configJSON = JSON.parse(config);
-      console.log("Config: " + config);
-      console.log("valor: " + configJSON.showSlide)
+/*       console.log("Config: " + config);
+      console.log("valor: " + configJSON.showSlide) */
       if(config == null|| configJSON.showSlide){
         this.rootPage = IntroPage;
         configProvider.setConfigData(false);
@@ -42,3 +42,4 @@ export class MyApp {
     });
   }
 }
+//https://github.com/FaztWeb/angular-firestore-example/blob/master/src/app/services/task.service.ts
