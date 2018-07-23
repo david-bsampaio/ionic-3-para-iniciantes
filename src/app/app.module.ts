@@ -2,7 +2,8 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
-
+import {MatExpansionModule} from '@angular/material';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
@@ -15,12 +16,10 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HttpModule } from '@angular/http';
 import { MovieProvider } from '../providers/movie/movie';
-import { ContactProvider } from '../providers/contact/contact';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { ManterProdutoPage } from '../pages/manter-produto/manter-produto';
-import { ManterProdutoPageModule } from '../pages/manter-produto/manter-produto.module';
 import { ProdutoService } from './services/produto.service';
 
 @NgModule({
@@ -33,7 +32,9 @@ import { ProdutoService } from './services/produto.service';
     ManterProdutoPage
   ],
   imports: [
+    MatExpansionModule,
     BrowserModule,
+    BrowserAnimationsModule,
     IonicModule.forRoot(MyApp),
     FeedPageModule,
     IntroPageModule,

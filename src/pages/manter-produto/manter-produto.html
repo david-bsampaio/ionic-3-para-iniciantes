@@ -14,18 +14,7 @@
 <ion-content padding>
     <form [formGroup]="form">
         <ion-row>
-            <ion-col col-3 col-lg-4 col-xl-4>
-              <ion-item>
-                <ion-label floating>ID</ion-label>
-                <ion-input type="number" formControlName="id"></ion-input>
-              </ion-item>
-              <ion-item *ngIf="!form.controls.id.valid && (form.controls.id.dirty || form.controls.id.touched)" color="danger">
-                <div [hidden]="!form.controls.id.errors.required">
-                 Campo obrigatório
-                </div>
-              </ion-item>
-            </ion-col>
-            <ion-col col-9 col-lg-8 col-xl-8>
+            <ion-col col-12 col-lg-12 col-xl-12>
                 <ion-item>
                   <ion-label floating>Nome</ion-label>
                   <ion-input type="text" formControlName="nome"></ion-input>

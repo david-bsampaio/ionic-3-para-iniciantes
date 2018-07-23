@@ -1,6 +1,6 @@
 interface Produto {
     uuid:string;
     descricao: string;
-    id: number;
+    /* id: number; */
     nome: string;
    }

@@ -1,14 +1,36 @@
 <ion-header>
     <ion-navbar color="primary">
-      <ion-title>
-        Produtos
-      </ion-title>
+      <ion-toolbar>
+          <ion-title>
+          Produtos
+        </ion-title>
+      </ion-toolbar>
     </ion-navbar>
   </ion-header>
   
   <ion-content padding>
   
-    <ion-list>
+      <mat-accordion>
+          <mat-expansion-panel *ngFor="let item of produtos | async">
+            <mat-expansion-panel-header>
+                <mat-panel-title>{{ item.nome }}</mat-panel-title>
+                <mat-panel-description>{{ item.descricao }}</mat-panel-description>
+            </mat-expansion-panel-header>
+            <p>{{ item.descricao }}</p>
+            <mat-action-row>
+                <button ion-button clear color="secondary" (click)="editarProduto(item)">
+                    <ion-icon name="create"></ion-icon>
+                    Editar
+                  </button>
+                  <button ion-button clear color="danger" (click)="removerProduto(item)">
+                    <ion-icon name="trash"></ion-icon>
+                    Remover
+                  </button>
+            </mat-action-row>
+          </mat-expansion-panel>
+          </mat-accordion>
+
+<!--     <ion-list>
       <ion-item-sliding *ngFor="let item of produtos | async">
         <ion-item>
           <h1>{{item.id}} - {{ item.nome }}</h1>
@@ -25,10 +47,10 @@
           </button>
         </ion-item-options>
       </ion-item-sliding>
-    </ion-list>
+    </ion-list> -->
   
-    <ion-fab bottom right>
-      <button ion-fab color="primary" (click)="inserir()">
+    <ion-fab top right edge>
+      <button ion-fab color="light" (click)="inserir()">
         <ion-icon name="add"></ion-icon>
       </button>
     </ion-fab>

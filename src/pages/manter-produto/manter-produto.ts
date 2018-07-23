@@ -47,7 +47,7 @@ export class ManterProdutoPage {
   createForm() {
     this.form = this.formBuilder.group({
       uuid: [this.produto.uuid],
-      id: [this.produto.id, Validators.required],
+      /* id: [this.produto.id, Validators.required], */
       nome: [this.produto.nome, Validators.required],
       descricao: [this.produto.descricao],
     });
