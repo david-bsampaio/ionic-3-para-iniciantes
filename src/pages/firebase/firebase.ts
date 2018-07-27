@@ -33,7 +33,7 @@ export class FirebasePage {
   }
 
   ionViewWillEnter() {
-    this.produtos = this.produtoService.getProdutos();
+    this.inicializaProdutos();
  }
 
  inserir() {
@@ -74,5 +74,25 @@ export class FirebasePage {
       ]
     });
     confirm.present();
+  }
+
+  getItems(ev: any) {
+    // Reset items back to all of the items
+     this.inicializaProdutos();
+
+    // set val to the value of the searchbar
+    const val = ev.target.value;
+
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+      this.produtos = this.produtos.map(items => items.filter((produto) => {
+        return (produto.nome.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    )
+    }
+  }
+
+  inicializaProdutos(){
+    this.produtos = this.produtoService.getProdutos();
   }
 }

@@ -62,8 +62,5 @@
             "cordova-plugin-whitelist": {},
             "ionic-plugin-keyboard": {}
         }
-    },
-    "config": {
-        "ionic_copy": "./config/copy-custom-libs.js"
     }
 }

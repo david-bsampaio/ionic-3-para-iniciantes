@@ -13,7 +13,7 @@ export class ProdutoService {
   produtosDoc: AngularFirestoreDocument<Produto>;
 
   constructor(public afs:AngularFirestore) {
-    this.produtosCollection = this.afs.collection('produto');
+    this.produtosCollection = this.afs.collection('produto',ref => ref.orderBy('nome'));
     // this.tasks = this.afs.collection('tasks').valueChanges();
     this.produtos = this.produtosCollection.snapshotChanges().map(changes => {
       return changes.map(a => {

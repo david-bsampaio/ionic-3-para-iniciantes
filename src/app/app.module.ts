@@ -2,7 +2,6 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
-import {MatExpansionModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
@@ -32,7 +31,6 @@ import { ProdutoService } from './services/produto.service';
     ManterProdutoPage
   ],
   imports: [
-    MatExpansionModule,
     BrowserModule,
     BrowserAnimationsModule,
     IonicModule.forRoot(MyApp),

@@ -5,12 +5,24 @@
           Produtos
         </ion-title>
       </ion-toolbar>
+      <ion-toolbar>
+            <ion-searchbar (ionInput)="getItems($event)">
+              <button ng-if="search.length"
+            class="input-button button button-icon ion-android-close"
+            ng-click="clearSearch()"></button>
+            </ion-searchbar>
+            <ion-buttons class="botao_toolbar" end>
+              <button ion-button icon-only (click)="inserir()">
+                  <ion-icon name="add"></ion-icon>
+              </button>
+          </ion-buttons>
+        </ion-toolbar>
     </ion-navbar>
   </ion-header>
   
   <ion-content padding>
   
-      <mat-accordion>
+      <mat-accordion class="example-headers-align">
           <mat-expansion-panel *ngFor="let item of produtos | async">
             <mat-expansion-panel-header>
                 <mat-panel-title>{{ item.nome }}</mat-panel-title>
@@ -29,30 +41,11 @@
             </mat-action-row>
           </mat-expansion-panel>
           </mat-accordion>
-
-<!--     <ion-list>
-      <ion-item-sliding *ngFor="let item of produtos | async">
-        <ion-item>
-          <h1>{{item.id}} - {{ item.nome }}</h1>
-          <p>{{ item.descricao }}</p>
-        </ion-item>
-        <ion-item-options side="left">
-          <button ion-button color="secondary" (click)="editarProduto(item)">
-            <ion-icon name="create"></ion-icon>
-            Editar
-          </button>
-          <button ion-button color="danger" (click)="removerProduto(item)">
-            <ion-icon name="trash"></ion-icon>
-            Remover
-          </button>
-        </ion-item-options>
-      </ion-item-sliding>
-    </ion-list> -->
   
-    <ion-fab top right edge>
+    <!-- <ion-fab top right edge>
       <button ion-fab color="light" (click)="inserir()">
         <ion-icon name="add"></ion-icon>
       </button>
-    </ion-fab>
-  </ion-content>ionic serve
+    </ion-fab> -->
+  </ion-content>
   

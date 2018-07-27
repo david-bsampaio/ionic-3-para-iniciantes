@@ -93,4 +93,8 @@ export class ManterProdutoPage {
   voltar(){
     this.navCtrl.pop();
   }
+
+  limpar(){
+    this.createForm();
+  }
 }

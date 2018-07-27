@@ -6,8 +6,15 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>{{titulo}}</ion-title>
+  <ion-navbar color="primary">
+    <ion-toolbar>
+        <ion-buttons left>
+            <button ion-button icon-only (click)="voltar()">
+                <ion-icon name="arrow-back"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title>{{titulo}}</ion-title>
+    </ion-toolbar>
   </ion-navbar>
 
 </ion-header>
@@ -42,8 +49,8 @@
     <ion-icon name="archive" padding-right></ion-icon>
     Salvar
   </button>
-  <button ion-button float-start (click)="voltar()">
-    <ion-icon name="arrow-round-back" padding-right></ion-icon>
-    Voltar
+  <button ion-button float-start (click)="limpar()">
+    <ion-icon name="refresh" padding-right></ion-icon>
+    Limpar
   </button>
 </ion-footer>
