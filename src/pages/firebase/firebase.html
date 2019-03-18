@@ -42,6 +42,16 @@
           </mat-expansion-panel>
           </mat-accordion>
   
+          <ion-fab top right edge fixed>
+            <ion-row>
+              <ion-col>
+                <button ion-fab (click)="createPdf()">
+                  <ion-icon name="md-download"></ion-icon>
+                </button>
+              </ion-col>
+            </ion-row>
+          </ion-fab>
+
     <!-- <ion-fab top right edge>
       <button ion-fab color="light" (click)="inserir()">
         <ion-icon name="add"></ion-icon>
