@@ -1,0 +1,49 @@
+usi-anexo {
+
+    .chooseFile {
+        cursor: pointer;
+        padding: 10px;
+    }
+
+    #fileInput{
+        width: 0.1px;
+	    height: 0.1px;
+	    opacity: 0;
+	    overflow: hidden;
+	    position: absolute;
+	    z-index: -1;
+    } 
+
+    span, label, ion-icon {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    // slides
+
+    .teste-img{
+        max-width: 140px;
+        max-height: 140px;
+        position: relative;
+    }
+
+    .img-wrap {
+        position: relative;
+    }
+
+    .img-wrap .check {
+        position: absolute;
+        top: 2px;
+        right: 1px;
+        z-index: 100;
+        background-color: transparent;
+        height: 21px;
+        width: 17px;
+        cursor: pointer;
+    }
+
+    .swiper-container.swiper-container-horizontal {
+        padding: 40px 0px;
+    }
+
+}

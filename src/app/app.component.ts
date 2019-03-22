@@ -7,6 +7,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { IntroPage } from '../pages/intro/intro';
 import { ConfigProvider } from '../providers/config/config';
 
+
 @Component({
   templateUrl: 'app.html',
   providers: [

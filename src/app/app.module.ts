@@ -20,6 +20,12 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { ManterProdutoPage } from '../pages/manter-produto/manter-produto';
 import { ProdutoService } from './services/produto.service';
+import { File } from '@ionic-native/file';
+import { FileOpener } from '@ionic-native/file-opener';
+import { Camera } from '@ionic-native/camera/ngx';
+import { CameraPage } from '../pages/camera/camera';
+import { AnexoComponentModule } from '../component/anexo/anexo.component.module';
+
 
 @NgModule({
   declarations: [
@@ -28,7 +34,8 @@ import { ProdutoService } from './services/produto.service';
     ContactPage,
     HomePage,
     TabsPage,
-    ManterProdutoPage
+    ManterProdutoPage,
+    CameraPage
   ],
   imports: [
     BrowserModule,
@@ -48,6 +55,7 @@ import { ProdutoService } from './services/produto.service';
     }),
     AngularFireAuthModule,
     AngularFirestoreModule.enablePersistence(),
+    AnexoComponentModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -56,14 +64,18 @@ import { ProdutoService } from './services/produto.service';
     ContactPage,
     HomePage,
     TabsPage,
-    ManterProdutoPage
+    ManterProdutoPage,
+    CameraPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     MovieProvider,
-    ProdutoService
+    ProdutoService,
+    File,
+    FileOpener,
+    Camera
   ]
 })
 export class AppModule {}

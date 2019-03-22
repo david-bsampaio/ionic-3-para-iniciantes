@@ -3,7 +3,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
-
+import { Platform } from 'ionic-angular';
+import { File } from '@ionic-native/file';
+import { FileOpener } from '@ionic-native/file-opener';
 /**
  * Generated class for the IntroPage page.
  *
@@ -230,7 +232,7 @@ export class IntroPage {
 
   pdfObj = null;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,private plt: Platform, private file: File, private fileOpener: FileOpener) {
   }
 
   ionViewDidLoad() {
@@ -249,6 +251,19 @@ export class IntroPage {
   }
 
   downloadPdf() {
-    this.pdfObj.download();
+    if (this.plt.is('cordova')) {
+      this.pdfObj.getBuffer((buffer) => {
+        var blob = new Blob([buffer], { type: 'application/pdf' });
+
+        // Save the PDF to the data Directory of our App
+        this.file.writeFile(this.file.dataDirectory, 'myletter.pdf', blob, { replace: true }).then(fileEntry => {
+          // Open the PDf with the correct OS tools
+          this.fileOpener.open(this.file.dataDirectory + 'myletter.pdf', 'application/pdf');
+        })
+      });
+    } else {
+      // On a browser simply use download!
+      this.pdfObj.download();
+    }
   }
 }
