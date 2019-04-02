@@ -1,21 +1,20 @@
 import { NgModule } from '@angular/core';
 import { IonicModule } from 'ionic-angular';
 import { AnexoComponent } from './anexo.component';
-import { Camera } from '@ionic-native/camera/ngx';
+import { ExpandPreviewPageModule } from './expand-preview/expand-preview.module';
 
 @NgModule({
     declarations: [
         AnexoComponent
     ],
     imports: [
-        IonicModule
+        IonicModule,
+        ExpandPreviewPageModule
     ],
     exports: [
         AnexoComponent
     ], entryComponents: [
         AnexoComponent
-    ], providers: [
-        Camera
     ]
 })
 export class AnexoComponentModule { }

@@ -1,6 +1,6 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
-import { Platform, AlertController } from 'ionic-angular';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { AlertController, Slides, ModalController } from 'ionic-angular';
+import { ExpandPreviewPage } from './expand-preview/expand-preview';
 
 @Component({
     selector: 'usi-anexo',
@@ -8,103 +8,82 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 })
 export class AnexoComponent {
 
-    @Input() camera: boolean = true; // Indicador se pode tirar foto (default true)
-
-    @Input() biblioteca: boolean = true; // Indicador se pode escolher arquivo (default true)
-
     @Input() extensions: string; // String com a lista de extensoes permitidas
 
     @Input() limite: number; // Limite de arquivos
 
     @ViewChild('fileInput') fileInput: ElementRef;
 
+    @ViewChild(Slides) slides: Slides;
+
     @Output() filesEvent = new EventEmitter<any>(); // Emitir evento
 
-    files: { file: File, preview: any }[] = new Array; // Lista de arquivos
+    files: { file: File, preview: any, isExpandable: boolean }[] = new Array; // Lista de arquivos
 
     slidesPerView: number; // Número de arquivos exibidos no slide
-    showPager: boolean = false; // Indicador se exibe os pontinhos de paginação
 
-    constructor(private _platform: Platform, private _alertCtrl: AlertController, private _camera: Camera) {
+    pdfSrc;
 
-        if (this._platform.width() > 1200) this.slidesPerView = 5;
-        else if (this._platform.width() > 768) this.slidesPerView = 4;
-        else if (this._platform.width() > 400) this.slidesPerView = 2;
-        else this.slidesPerView = 1;
+    constructor(private _alertCtrl: AlertController, private _modalCtrl: ModalController,
+        private _element: ElementRef) { }
 
-    }
+    ngOnInit() {
+        this.setSlidesPerView();
 
-    isMobile(): boolean {
-        return this._platform.is('mobile');
-    }
-
-    abrirCamera() {
-
-        const options: CameraOptions = {
-            quality: 100,
-            destinationType: this._camera.DestinationType.FILE_URI,
-            encodingType: this._camera.EncodingType.JPEG,
-            mediaType: this._camera.MediaType.PICTURE
+        if (this.extensions.indexOf("image/*")) {
+            this.extensions = this.extensions.replace("image/*", ".png,.jpg,.jpeg,.bmp")
         }
 
-        this._camera.getPicture(options).then((imageFileUri) => {
-            // imageData is either a base64 encoded string or a file URI
-            // If it's base64 (DATA_URL):
-            //let base64Image = 'data:image/jpeg;base64,' + imageData;
+    }
 
-            console.log(imageFileUri);
+    @HostListener('window:resize')
+    onResize() { // quando alterar o tamanho da pagina
+        this.setSlidesPerView();
+    }
 
-            window['resolveLocalFileSystemURL'](imageFileUri,
-                entry => {
-                    entry['file'](file => this.readFile(file));
-                });
+    /**
+     * Determina quantos itens ficarão visiveis no slider
+     */
+    setSlidesPerView() {
 
-        }, (err) => {
-            // Handle error
-            console.log("ERRO", err);
-            let alertPopup = this._alertCtrl.create({
-                title: 'ERRO',
-                message: err,
-                buttons: ['OK']
-            });
+        let width = this._element.nativeElement.offsetWidth;
 
-            alertPopup.present();
-        });
+        if (width > 1200) this.slidesPerView = 5;
+        else if (width > 768) this.slidesPerView = 4;
+        else if (width > 400) this.slidesPerView = 2;
+        else this.slidesPerView = 1;
+
+        this.slides.update();
 
     }
 
-    private readFile(file: any) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-
-            console.log(file);
-
-            const imgBlob = new Blob([reader.result], { type: file.type });
-
-            let fileToUpload = new File([imgBlob], "IMG_" + Date.now() + ".jpeg", { type: "octet/stream" });
-
-            this.files.push({ file: fileToUpload, preview: "/assets/imgs/logo.png" });
-
-        };
-        reader.readAsArrayBuffer(file);
+    isBeginning(): boolean {
+        return this.slides.isBeginning();
     }
 
-    next(slideFiles: any) {
-        slideFiles.slideNext(500);
+    isEnd(): boolean {
+        return this.slides.isEnd();
     }
 
-    prev(slideFiles: any) {
-        slideFiles.slidePrev(500);
+    next() {
+        this.slides.slideNext(500);
+    }
+
+    prev() {
+        this.slides.slidePrev(500);
     }
 
     /**
      * Inclusão de arquivo(s) na lista
      * @param $event 
      */
-    changeListener($event): void {
+    adicionarFiles($event): void {
 
-        for (let file of $event.target.files) {
+        let invalidos;
 
+        for (let file of $event.target.files) { // cada arquivo selecionado
+
+            // Verificar limite (se existir)
             if (this.limite && this.limite == this.files.length) {
 
                 let alertPopup = this._alertCtrl.create({
@@ -119,24 +98,58 @@ export class AnexoComponent {
                 break;
             }
 
-            let index = this.files.push({ file: file, preview: "/assets/imgs/logo.png" }) - 1;
+            if (this.extensions && this.extensions.indexOf((/(?:\.([^.]+))?$/).exec(file.name)[1]) < 0) {
 
-            if (file.name.indexOf(".png") > 0 || file.name.indexOf(".jpg") > 0 || file.name.indexOf(".jpeg") > 0) {
+                if (!invalidos) invalidos = new Array();
+                invalidos.push(file.name);
+                continue;
+
+            }
+
+            // Adicionar na lista
+            let index = this.files.push({ file: file, preview: "/assets/imgs/logo.png", isExpandable: false }) - 1;
+
+            // Carregar miniatura
+            if (file.type.indexOf("image") != -1) {
 
                 let reader = new FileReader();
                 reader.onload = (_event) => {
                     this.files[index].preview = reader.result;
+                    this.files[index].isExpandable = true;
                 }
                 reader.readAsDataURL(file);
 
             }
-            else if (file.name.indexOf(".pdf") > 0) this.files[index].preview = "/assets/imgs/download.png";
+            else if (file.type.indexOf("pdf") != -1) {
+                this.files[index].preview = "/assets/imgs/download.png";
+                this.files[index].isExpandable = true;
+            }
 
         }
 
+        if (invalidos) {
+
+            let alertPopup = this._alertCtrl.create({
+                title: 'AVISO',
+                subTitle: `Não foi possível anexar o(s) seguinte(s) arquivo(s) por possuir(em) extensão inválida.`,
+                message: this.montarMsgArquivosInvalidos(invalidos),
+                buttons: ['OK'],
+                cssClass: "my-custom-alert my-alert-alerta"
+            });
+
+            alertPopup.present();
+
+        }
+
+        // Emitir lista de arquivos para a tela principal
         this.filesEvent.emit(this.files);
 
-        this.showPager = true;
+        // Ir para o final dos slides
+        setTimeout(() => {
+            while (this.files.length > this.slidesPerView && !this.slides.isEnd()) {
+                this.slides.slideNext();
+            }
+        }, 100);
 
     }
 
@@ -146,11 +159,50 @@ export class AnexoComponent {
      */
     remover(index: number) {
 
-        this.files.splice(index, 1);
+        this.files.splice(index, 1); //remover
 
-        this.filesEvent.emit(this.files);
+        this.filesEvent.emit(this.files); // emitir
 
-        if (this.files.length == 0) this.showPager = false;
+        // Voltar um slide quando o último é removido (porém ignorando quando era um único slide)
+        if (this.isEnd() && !this.isBeginning()) {
+            setTimeout(() => { this.prev() }, 100);
+        }
+
+    }
+
+    /**
+     * Abrir arquivo clicado em um modal
+     * @param file 
+     */
+    expand(selected: any) {
+
+        let modal = this._modalCtrl.create(ExpandPreviewPage,
+            {
+                file: selected
+            });
+
+        modal.present();
+
+    }
+
+    open(selected: any) {
+
+        let url = URL.createObjectURL(selected.file);
+        window.open(url, "_blank");
+
+    }
+
+    private montarMsgArquivosInvalidos(invalidos: string[]): string {
+
+        let msg = `<ul>`;
+
+        for (let invalido of invalidos) {
+
+            msg += `<li>${invalido}</li>`;
+
+        }
+
+        return msg + `</ul>`;
 
     }
 

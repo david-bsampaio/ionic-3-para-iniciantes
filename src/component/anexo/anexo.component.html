@@ -1,43 +1,48 @@
 <ion-row>
 
-    <button ion-button icon-start outline class="botao-outline" *ngIf="camera && isMobile()" (click)="abrirCamera()" [disabled]="files.length == limite">
-        <ion-icon name="camera"></ion-icon>Fotografar
-    </button>
+    <input type="file" (change)="adicionarFiles($event)" id="fileInput" #fileInput multiple="multiple" [accept]="extensions">
 
-    <input type="file" (change)="changeListener($event)" id="fileInput" #fileInput multiple="multiple" [accept]="extensions">
-
-    <button ion-button icon-start outline class="botao-outline" *ngIf="biblioteca" [disabled]="files.length == limite">
+    <button ion-button icon-start outline class="botao-outline" [disabled]="files.length == limite">
         <label for="fileInput" class="chooseFile">
-            <ion-icon name="document"></ion-icon>Escolher Arquivo
+            <ion-icon name="document"></ion-icon>Anexar
         </label>
     </button>
 
 </ion-row>
 
-<ion-row>
+<ion-row [class.hide]="files.length == 0">
 
-    <ion-col col-2>
-        <div *ngIf="files.length > 0" class="swiper-button-prev" (click)="prev(slideFiles)"></div>
+    <ion-col col-1 col-xs-2 col-sm-1 col-md-1 col-lg-1 col-xl-1 (click)="!isBeginning() ? prev() : null">
+        <div class="swiper-button-prev" [class.disabled-arrow]="isBeginning()"></div>
     </ion-col>
 
-    <ion-col col-8>
+    <ion-col col-10 col-xs-8 col-sm-10 col-md-10 col-lg-10 col-xl-10>
 
-        <ion-slides class="slide-padding" #slideFiles initialSlide=0 [slidesPerView]="slidesPerView" speed=1000 [pager]="showPager" parallax="true"
-            paginationType>
+        <ion-slides class="slide-padding" #slideFiles initialSlide=0 [slidesPerView]="slidesPerView" speed=1000 [pager]="this.files.length > 0"
+            parallax="true">
             <ion-slide *ngFor="let file of files; let i = index">
                 <div class="img-wrap">
-                    <ion-icon name="trash" class="check" (click)="remover(i)"></ion-icon>
-                    <!-- <ion-checkbox class="check"></ion-checkbox> -->
-                    <img [src]="file.preview" class="teste-img" positionV="top" arrow />
-                    <ion-label>{{file.file.name}}</ion-label>
+
+                    <div class="container" [class.expandable]="file.isExpandable" (click)="expand(file)">
+                        <img [src]="file.preview" class="miniatura-img" />
+                        <div class="centered">
+                            <ion-icon name="search"></ion-icon>
+                        </div>
+                    </div>
+                    <ion-label>
+                        <ion-icon name="trash" (click)="remover(i)" class="click-icon"></ion-icon>
+                        <ion-icon name="search" *ngIf="file.file.type.indexOf('pdf') >= 0" (click)="open(file)" class="click-icon"></ion-icon>
+                        {{file.file.name}}
+                    </ion-label>
+
                 </div>
             </ion-slide>
         </ion-slides>
 
     </ion-col>
 
-    <ion-col col-2>
-        <div *ngIf="files.length > 0" class="swiper-button-next" (click)="next(slideFiles)"></div>
+    <ion-col col-1 col-xs-2 col-sm-1 col-md-1 col-lg-1 col-xl-1 (click)="!isEnd() ? next() : null">
+        <div class="swiper-button-next" [class.disabled-arrow]="isEnd()"></div>
     </ion-col>
 
 </ion-row>

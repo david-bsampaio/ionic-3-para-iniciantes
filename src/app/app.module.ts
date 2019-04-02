@@ -55,7 +55,7 @@ import { AnexoComponentModule } from '../component/anexo/anexo.component.module'
     }),
     AngularFireAuthModule,
     AngularFirestoreModule.enablePersistence(),
-    AnexoComponentModule
+    AnexoComponentModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [

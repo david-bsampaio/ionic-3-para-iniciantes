@@ -1,5 +1,10 @@
 usi-anexo {
 
+    width: 100%;
+    display: block;
+
+    // BOTÃO:
+
     .chooseFile {
         cursor: pointer;
         padding: 10px;
@@ -19,31 +24,73 @@ usi-anexo {
         vertical-align: middle;
     }
 
-    // slides
-
-    .teste-img{
-        max-width: 140px;
-        max-height: 140px;
-        position: relative;
+    .click-icon {
+        cursor: pointer;
     }
+
+
+    // SLIDE:
 
     .img-wrap {
         position: relative;
     }
 
-    .img-wrap .check {
-        position: absolute;
-        top: 2px;
-        right: 1px;
-        z-index: 100;
-        background-color: transparent;
-        height: 21px;
-        width: 17px;
+    .img-wrap img {
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+
+    .miniatura-img {
+        max-width: 140px;
+        max-height: 140px;
+        position: relative;
+    }
+
+    // hover para exibir possibilidade de expansao
+    .expandable:hover {
         cursor: pointer;
     }
 
-    .swiper-container.swiper-container-horizontal {
+    .expandable:hover img {
+        opacity: .5;
+    }
+
+    .expandable:hover .centered {
+       display: block;
+       opacity: .7;
+    }
+
+    .container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .centered { // icone centralizado
+        display: none;
+        position: absolute;
+        font-size: 3em;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    //
+
+    .swiper-container.swiper-container-horizontal { // ajuste container
         padding: 40px 0px;
+    }
+
+    .disabled-arrow { // parecer desabilitado quando nao puder navegar
+        opacity: .2;
+        cursor: unset;
+    }
+
+    .hide { // esconder quando nao existem arquivos
+        display: none;
+    }
+
+    ion-label {
+        color: rgba(0,0,0,.87);
     }
 
 }
