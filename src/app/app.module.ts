@@ -13,7 +13,7 @@ import { IntroPageModule } from '../pages/intro/intro.module';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { HttpModule } from '@angular/http';
+import { HttpModule, Http } from '@angular/http';
 import { MovieProvider } from '../providers/movie/movie';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
@@ -25,7 +25,12 @@ import { FileOpener } from '@ionic-native/file-opener';
 import { Camera } from '@ionic-native/camera/ngx';
 import { CameraPage } from '../pages/camera/camera';
 import { AnexoComponentModule } from '../component/anexo/anexo.component.module';
+import {TranslateLoader, TranslateStaticLoader} from "ng2-translate/src/translate.service";
+import {TranslateModule} from "ng2-translate/ng2-translate";
 
+export function createTranslateLoader(http: Http) {
+  return new TranslateStaticLoader(http, 'assets/i18n', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -56,6 +61,11 @@ import { AnexoComponentModule } from '../component/anexo/anexo.component.module'
     AngularFireAuthModule,
     AngularFirestoreModule.enablePersistence(),
     AnexoComponentModule,
+    TranslateModule.forRoot({
+      provide: TranslateLoader,
+      useFactory: (createTranslateLoader),
+      deps: [Http]
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -75,7 +85,9 @@ import { AnexoComponentModule } from '../component/anexo/anexo.component.module'
     ProdutoService,
     File,
     FileOpener,
-    Camera
+    Camera,
+    HttpModule
   ]
 })
+
 export class AppModule {}

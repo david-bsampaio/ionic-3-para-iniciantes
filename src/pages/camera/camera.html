@@ -8,11 +8,25 @@
 
   <ion-navbar>
     <ion-title>camera</ion-title>
+    <form [formGroup]="form" novalidate>
+      <ion-select formControlName="language" interface="popover" (ionChange)="changeLanguage2()">
+        <ion-option *ngFor="let o of languages" [value]="o">{{o.text}}</ion-option>
+      </ion-select>
+    </form>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-    <usi-anexo extensions=".pdf,image/*"></usi-anexo>
+
+
+
+  <ion-card>
+    <h1>{{'name' | translate}}: David Sampaio</h1>
+    <p>{{'signup' | translate}}</p>
+    <p>{{'signin' | translate}}</p>
+  </ion-card>
+
+  <usi-anexo extensions=".pdf,image/*"></usi-anexo>
 </ion-content>

@@ -6,6 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { TabsPage } from '../pages/tabs/tabs';
 import { IntroPage } from '../pages/intro/intro';
 import { ConfigProvider } from '../providers/config/config';
+import {TranslateService} from "ng2-translate";
 
 
 @Component({
@@ -21,11 +22,19 @@ export class MyApp {
               platform: Platform, 
               statusBar: StatusBar, 
               splashScreen: SplashScreen,
-              configProvider: ConfigProvider
+              configProvider: ConfigProvider,
+              private translate: TranslateService
             ) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
+
+      //Configura a língua a ser utilizada pelo arquivo global
+      // add language translation file i.e. 'en.json' &amp; 'de.json'
+      this.translate.addLangs(["pt-br"]);
+      // use a default language
+      this.translate.use('pt-br');
+      console.log('translate: ', this.translate)
 
       let config = configProvider.getConfigData();
       let configJSON = JSON.parse(config);
@@ -43,4 +52,3 @@ export class MyApp {
     });
   }
 }
-//https://github.com/FaztWeb/angular-firestore-example/blob/master/src/app/services/task.service.ts
