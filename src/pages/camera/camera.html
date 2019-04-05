@@ -5,22 +5,26 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>camera</ion-title>
-    <form [formGroup]="form" novalidate>
-      <ion-select formControlName="language" interface="popover" (ionChange)="changeLanguage2()">
-        <ion-option *ngFor="let o of languages" [value]="o">{{o.text}}</ion-option>
-      </ion-select>
-    </form>
-  </ion-navbar>
+  <ion-row align-items-center>
+    <ion-col col-9>
+      <ion-title>camera</ion-title>
+    </ion-col>
+    <ion-col col-3>
+      <form [formGroup]="form" novalidate>
+        <ion-item>
+          <ion-label stacked>{{'language' | translate}}</ion-label>
+          <ion-select formControlName="language" interface="popover" (ionChange)="changeLanguage2()">
+            <ion-option *ngFor="let o of languages" [value]="o">{{o.text}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </form>
+    </ion-col>
+  </ion-row>
 
 </ion-header>
 
 
 <ion-content padding>
-
-
 
   <ion-card>
     <h1>{{'name' | translate}}: David Sampaio</h1>
