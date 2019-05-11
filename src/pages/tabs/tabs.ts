@@ -3,6 +3,7 @@ import { HomePage } from '../home/home';
 import { FeedPage } from '../feed/feed';
 import { FirebasePage } from '../firebase/firebase';
 import { CameraPage } from '../camera/camera';
+import { PessoaPage } from '../pessoa/pessoa';
 
 
 @Component({
@@ -14,6 +15,7 @@ export class TabsPage {
   tab1Root = HomePage;
   tab2Root = FeedPage;
   tab3Root = FirebasePage;
+  tab4Root = PessoaPage;
 
   constructor() {
 

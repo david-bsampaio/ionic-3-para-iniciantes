@@ -27,6 +27,9 @@ import { CameraPage } from '../pages/camera/camera';
 import { AnexoComponentModule } from '../component/anexo/anexo.component.module';
 import {TranslateLoader, TranslateStaticLoader} from "ng2-translate/src/translate.service";
 import {TranslateModule} from "ng2-translate/ng2-translate";
+import { PessoaPage } from '../pages/pessoa/pessoa';
+import { PessoaService } from './services/pessoa.service';
+import { ManterPessoaPage } from '../pages/manter-pessoa/manter-pessoa';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, 'assets/i18n', '.json');
@@ -40,7 +43,9 @@ export function createTranslateLoader(http: Http) {
     HomePage,
     TabsPage,
     ManterProdutoPage,
-    CameraPage
+    ManterPessoaPage,
+    CameraPage,
+    PessoaPage
   ],
   imports: [
     BrowserModule,
@@ -75,7 +80,9 @@ export function createTranslateLoader(http: Http) {
     HomePage,
     TabsPage,
     ManterProdutoPage,
-    CameraPage
+    ManterPessoaPage,
+    CameraPage,
+    PessoaPage
   ],
   providers: [
     StatusBar,
@@ -83,6 +90,7 @@ export function createTranslateLoader(http: Http) {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     MovieProvider,
     ProdutoService,
+    PessoaService,
     File,
     FileOpener,
     Camera,
